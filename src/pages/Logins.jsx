@@ -12,7 +12,7 @@ function Logins() {
     setMessage('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/send-otp', { email });
+      const res = await axios.post('https://react-social-app-backend-agyw.onrender.com/api/auth/send-otp', { email });
       if (res.data.success) {
         localStorage.setItem('otpEmail', email);
         navigate('/verify'); // redirect to OTP page
