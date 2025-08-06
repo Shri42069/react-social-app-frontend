@@ -7,11 +7,7 @@ import {
 } from "react";
 import { gsap } from "gsap";
 
-const useMedia = (
-  queries,
-  values,
-  defaultValue
-) => {
+const useMedia = (queries, values, defaultValue) => {
   const get = () =>
     values[queries.findIndex((q) => matchMedia(q).matches)] ?? defaultValue;
 
@@ -24,7 +20,6 @@ const useMedia = (
       queries.forEach((q) =>
         matchMedia(q).removeEventListener("change", handler)
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queries]);
 
   return value;
@@ -70,6 +65,7 @@ const Masonry = ({
   hoverScale = 0.95,
   blurToFocus = true,
   colorShiftOnHover = false,
+  onImageClick, // ✅ NEW PROP
 }) => {
   const columns = useMedia(
     [
@@ -92,9 +88,7 @@ const Masonry = ({
     let direction = animateFrom;
     if (animateFrom === "random") {
       const dirs = ["top", "bottom", "left", "right"];
-      direction = dirs[
-        Math.floor(Math.random() * dirs.length)
-      ];
+      direction = dirs[Math.floor(Math.random() * dirs.length)];
     }
 
     switch (direction) {
@@ -179,7 +173,6 @@ const Masonry = ({
     });
 
     hasMounted.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
   const handleMouseEnter = (id, element) => {
@@ -187,7 +180,7 @@ const Masonry = ({
       gsap.to(`[data-key="${id}"]`, {
         scale: hoverScale,
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
     if (colorShiftOnHover) {
@@ -201,7 +194,7 @@ const Masonry = ({
       gsap.to(`[data-key="${id}"]`, {
         scale: 1,
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
     if (colorShiftOnHover) {
@@ -218,7 +211,11 @@ const Masonry = ({
           data-key={item.id}
           className="absolute box-content"
           style={{ willChange: "transform, width, height, opacity" }}
-          onClick={() => window.open(item.url, "_blank", "noopener")}
+          onClick={() => {
+            if (typeof onImageClick === "function") {
+              onImageClick(item);
+            }
+          }}
           onMouseEnter={(e) => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={(e) => handleMouseLeave(item.id, e.currentTarget)}
         >

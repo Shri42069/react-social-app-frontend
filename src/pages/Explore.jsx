@@ -23,25 +23,33 @@ function Explore() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-[#121212] text-white px-4 py-8 relative">
-      <h1 className="text-2xl font-bold mb-6 text-center">Explore</h1>
+    <div className="min-h-screen w-full bg-[#0f0f0f] text-white relative overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-10 tracking-tight">
+          🔍 Discover New Moments
+        </h1>
 
-      {/* Container with padding-bottom to push Masonry height into full flow */}
-      <div className="relative min-h-screen pb-40">
-        <Masonry
-          items={posts}
-          animateFrom="bottom"
-          stagger={0.08}
-          blurToFocus
-          scaleOnHover
-          hoverScale={0.94}
-          colorShiftOnHover
-        />
-      </div>
+        {/* Masonry Grid */}
+        <div className="min-h-[80vh]">
+          <Masonry
+            items={posts}
+            animateFrom="bottom"
+            stagger={0.08}
+            blurToFocus
+            scaleOnHover
+            hoverScale={0.94}
+            colorShiftOnHover
+            onImageClick={(imgUrl) => {
+              // Custom behavior can go here
+              alert(`You clicked: ${imgUrl}`);
+            }}
+          />
+        </div>
 
-      {/* Loader */}
-      <div ref={loader} className="h-20 w-full flex items-center justify-center mt-10">
-        <span className="text-sm text-gray-400 animate-pulse">Loading more...</span>
+        {/* Infinite Scroll Loader */}
+        <div ref={loader} className="h-20 w-full flex items-center justify-center mt-10">
+          <span className="text-sm text-gray-400 animate-pulse">Loading more...</span>
+        </div>
       </div>
     </div>
   );
