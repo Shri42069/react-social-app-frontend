@@ -1,15 +1,25 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Hyperspeed from '../components/Hyperspeed'; // adjust path
 
 function Home() {
   const user = JSON.parse(localStorage.getItem('user'));
-
   const nameOrEmail = user?.name || user?.email || "User";
-  const firstName = nameOrEmail.split(' ')[0]; // Extract first name if possible
+  const firstName = nameOrEmail.split(' ')[0];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-6">
-      <div className="bg-gray-800 rounded-2xl shadow-2xl p-10 max-w-2xl w-full text-center">
+    <div className="relative min-h-screen bg-gray-900 text-white flex items-center justify-center px-6 overflow-hidden">
+      {/* Hyperspeed background */}
+      <Hyperspeed
+        className="pointer-events-none absolute inset-0 -z-10"
+        // If your component accepts props, tweak them here:
+        // speed={1.0}
+        // density={0.9}
+        // color="#a855f7"
+      />
+
+      {/* content card */}
+      <div className="bg-gray-800/80 rounded-2xl shadow-2xl p-10 max-w-2xl w-full text-center backdrop-blur-md border border-white/10">
         <div className="flex flex-col items-center justify-center">
 
           {user?.profilePic ? (
